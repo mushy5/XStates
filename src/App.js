@@ -18,29 +18,40 @@ export default function App() {
   };
 
   const getCountries = async () => {
-    let response = await fetch(
-      "https://crio-location-selector.onrender.com/countries"
-    );
-    let data = await response.json();
-    //setPlaceList({ ...placeList, [countries]: data });
-    setPlaceList({ ...placeList, countries: data });
+    try{
+      let response = await fetch(
+        "https://crio-location-selector.onrender.com/countries"
+      );
+      let data = await response.json();
+      //setPlaceList({ ...placeList, [countries]: data });
+      setPlaceList({ ...placeList, countries: data });
+    }catch(err){
+      console.error("Error fetching countries:", err);
+    }
+   
   };
   const getStates = async () => {
-    //console.log("selected country :", placeObj.country);
-    let response = await fetch(
-      `https://crio-location-selector.onrender.com/country=${placeObj.country}/states`
-    );
-    let data = await response.json();
-    setPlaceList(prevState => ({ ...prevState, states: data }));
+    try{
+      let response = await fetch(
+        `https://crio-location-selector.onrender.com/country=${placeObj.country}/states`
+      );
+      let data = await response.json();
+      setPlaceList(prevState => ({ ...prevState, states: data }));
+    }catch(err){
+      console.error("Error fetching countries:", err);
 
+    }
   };
   const getCities = async () => {
-    let response = await fetch(
-      `https://crio-location-selector.onrender.com/country=${placeObj.country}/state=${placeObj.state}/cities`
-    );
-    let data = await response.json();
-    setPlaceList(prevState => ({ ...prevState, cities: data }));
-
+    try{
+      let response = await fetch(
+        `https://crio-location-selector.onrender.com/country=${placeObj.country}/state=${placeObj.state}/cities`
+      );
+      let data = await response.json();
+      setPlaceList(prevState => ({ ...prevState, cities: data }));
+    }catch(err){
+      console.error("Error fetching countries:", err);
+    }
   };
   useEffect(() => {
     getCountries();
@@ -108,11 +119,11 @@ export default function App() {
       </div>
       <div className="result">
         {placeObj.city && (
-          <h3>
+          <div>
             You selected <span className="highlighted">{placeObj.city}</span>,{' '}
-            <span className="dim">{placeObj.country}</span>,{' '}
-            <span className="dim">{placeObj.state}</span>
-          </h3>
+            <span className="dim">{placeObj.state}</span>,{' '}
+            <span className="dim">{placeObj.country}</span>
+          </div>
         )}
       </div>
     </div>
