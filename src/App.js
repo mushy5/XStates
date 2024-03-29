@@ -31,14 +31,16 @@ export default function App() {
       `https://crio-location-selector.onrender.com/country=${placeObj.country}/states`
     );
     let data = await response.json();
-    setPlaceList({ ...placeList, states: data });
+    setPlaceList(prevState => ({ ...prevState, states: data }));
+
   };
   const getCities = async () => {
     let response = await fetch(
       `https://crio-location-selector.onrender.com/country=${placeObj.country}/state=${placeObj.state}/cities`
     );
     let data = await response.json();
-    setPlaceList({ ...placeList, cities: data });
+    setPlaceList(prevState => ({ ...prevState, cities: data }));
+
   };
   useEffect(() => {
     getCountries();
